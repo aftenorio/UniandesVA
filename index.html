@@ -20,8 +20,7 @@
 
 <body>
   
-<script src="https://d3js.org/d3.v3.min.js"></script>
-
+<script src="http://d3js.org/d3.v3.min.js"></script>
 
 <script>
 
@@ -29,8 +28,8 @@ var margin = {top: 20, right: 20, bottom: 70, left: 40},
     width = 600 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
-// Parse the ESCOLARIDAD / time
-var parseESCOLARIDAD = d3.time.format("%Y-%m").parse;
+// Parse the date / time
+var parseDate = d3.time.format("%Y-%m").parse;
 
 var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
@@ -53,16 +52,15 @@ var svg = d3.select("body").append("svg")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("Delito_Homicidios_2.csv", function(error, data) {
+d3.csv("bar-data.csv", function(error, data) {
 
     data.forEach(function(d) {
-        d.ESCOLARIDAD = parseESCOLARIDAD(d.ESCOLARIDAD);
-        d.EDAD = +d.EDAD;
+        d.date = parseDate(d.date);
+        d.value = +d.value;
     });
-
-
-  x.domain(data.map(function(d) { return d.ESCOLARIDAD; }));
-  y.domain([0, d3.max(data, function(d) { return d.EDAD; })]);
+  
+  x.domain(data.map(function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.value; })]);
 
   svg.append("g")
       .attr("class", "x axis")
@@ -82,16 +80,16 @@ d3.csv("Delito_Homicidios_2.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("EDAD ($)");
+      .text("Value ($)");
 
   svg.selectAll("bar")
       .data(data)
     .enter().append("rect")
       .style("fill", "steelblue")
-      .attr("x", function(d) { return x(d.ESCOLARIDAD); })
+      .attr("x", function(d) { return x(d.date); })
       .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.EDAD); })
-      .attr("height", function(d) { return height - y(d.EDAD); });
+      .attr("y", function(d) { return y(d.value); })
+      .attr("height", function(d) { return height - y(d.value); });
 
 });
 
