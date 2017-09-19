@@ -56,11 +56,11 @@ d3.csv("Delito_Homicidios.csv", function(error, data) {
 
     data.forEach(function(d) {
         d.ESCOLARIDAD = parseDate(d.ESCOLARIDAD);
-        d.value = +d.value;
+        d.2015 = +d.2015;
     });
   
   x.domain(data.map(function(d) { return d.ESCOLARIDAD; }));
-  y.domain([0, d3.max(data, function(d) { return d.value; })]);
+  y.domain([0, d3.max(data, function(d) { return d.2015; })]);
 
   svg.append("g")
       .attr("class", "x axis")
@@ -80,7 +80,7 @@ d3.csv("Delito_Homicidios.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Value ($)");
+      .text("2015 ($)");
 
   svg.selectAll("bar")
       .data(data)
@@ -88,8 +88,8 @@ d3.csv("Delito_Homicidios.csv", function(error, data) {
       .style("fill", "steelblue")
       .attr("x", function(d) { return x(d.ESCOLARIDAD); })
       .attr("width", x.rangeBand())
-      .attr("y", function(d) { return y(d.value); })
-      .attr("height", function(d) { return height - y(d.value); });
+      .attr("y", function(d) { return y(d.2015); })
+      .attr("height", function(d) { return height - y(d.2015); });
 
 });
 
