@@ -53,13 +53,14 @@ var svg = d3.select("body").append("svg")
     .attr("transform", 
           "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("Delito_Homicidios.csv", function(error, data) {
+d3.csv("Delito_Homicidios_2.csv", function(error, data) {
 
     data.forEach(function(d) {
         d.ESCOLARIDAD = parseESCOLARIDAD(d.ESCOLARIDAD);
         d.EDAD = +d.EDAD;
     });
-  
+
+
   x.domain(data.map(function(d) { return d.ESCOLARIDAD; }));
   y.domain([0, d3.max(data, function(d) { return d.EDAD; })]);
 
