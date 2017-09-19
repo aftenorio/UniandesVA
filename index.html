@@ -37,7 +37,7 @@ d3.csv("bar-data.csv", function(d) {
   if (error) throw error;
 
   x.domain(data.map(function(d) { return d.letter; }));
-  y.domain([0, d3.max(data, function(d) { return d.frequency; })]);
+  y.domain([0, d3.sum(data, function(d) { return d.frequency; })]);
 
   g.append("g")
       .attr("class", "axis axis--x")
